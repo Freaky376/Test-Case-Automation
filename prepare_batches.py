@@ -58,6 +58,8 @@ Use the screenshot naming to understand:
 
 Group related test cases by the parent screen number.
 
+4. Do NOT include '[Screenshot X]' or similar references in the title field.
+
 Context: 
 
 Generate comprehensive test cases (Positive, Negative, Edge, UI/UX).
@@ -68,7 +70,7 @@ Output JSON format ONLY (no markdown, valid JSON):
         {
             "id": "202602GEN-XXNN",
             "priority": "Critical|High|Medium|Low",
-            "title": "Clear title (reference screenshot number)",
+            "title": "Clear title (do NOT include screenshot reference e.g. [Screenshot 1])",
             "precondition": "Setup required",
             "steps": "1. Step one\\n2. Step two",
             "expected_result": "Expected outcome",

@@ -1,5 +1,5 @@
 """
-CLI interface for TestGen
+CLI interface for QAUTO
 """
 import argparse
 import sys
@@ -18,6 +18,7 @@ def cmd_prepare(args, config: Config):
         config=config,
         source_dir=args.source or '.',
         batch_size=args.batch_size,
+        module_name=args.module,
         custom_prompt=None
     )
     return 0 if success else 1
@@ -69,7 +70,7 @@ def cmd_config(args, config: Config):
 
 def cmd_init(args, config: Config):
     """Handle 'init' command - initialize configuration"""
-    config_path = Path.cwd() / 'testgen.config.yaml'
+    config_path = Path.cwd() / 'qauto.config.yaml'
     
     if config_path.exists() and not args.force:
         print(f"⚠️  Configuration file already exists: {config_path}")
@@ -81,30 +82,30 @@ def cmd_init(args, config: Config):
     config.save()
     
     print(f"✓ Configuration file created: {config_path}")
-    print("\nYou can now edit this file or use 'testgen config set' to modify settings.")
+    print("\nYou can now edit this file or use 'qauto config set' to modify settings.")
     return 0
 
 
 def main():
     """Main CLI entry point"""
     parser = argparse.ArgumentParser(
-        description='TestGen - Test Case Automation CLI Tool',
+        description='QAUTO - Test Case Automation CLI Tool',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  testgen prepare                    Prepare batches from screenshots
-  testgen prepare --batch-size 6     Use custom batch size
-  testgen generate                   Generate Excel report
-  testgen config show                Show current configuration
-  testgen config set template.primary /path/to/template.xlsx
-  testgen init                       Create config file in current directory
+  qauto prepare                    Prepare batches from screenshots
+  qauto prepare --batch-size 6     Use custom batch size
+  qauto generate                   Generate Excel report
+  qauto config show                Show current configuration
+  qauto config set template.primary /path/to/template.xlsx
+  qauto init                       Create config file in current directory
         """
     )
     
     parser.add_argument(
         '--version',
         action='version',
-        version=f'TestGen {__version__}'
+        version=f'QAUTO {__version__}'
     )
     
     parser.add_argument(
@@ -129,6 +130,11 @@ Examples:
         '--batch-size',
         type=int,
         help='Number of images per batch (overrides config)',
+        default=None
+    )
+    prepare_parser.add_argument(
+        '--module',
+        help='Name of the module (e.g., "Committee", "Login")',
         default=None
     )
     

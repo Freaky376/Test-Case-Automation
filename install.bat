@@ -1,9 +1,9 @@
 @echo off
-REM TestGen Installation Script for Windows
-REM This script sets up the TestGen CLI tool
+REM QAUTO Installation Script for Windows
+REM This script sets up the QAUTO CLI tool
 
 echo ==================================
-echo TestGen CLI Tool - Windows Setup
+echo QAUTO CLI Tool - Windows Setup
 echo ==================================
 echo.
 
@@ -33,12 +33,12 @@ echo [OK] Dependencies installed.
 echo.
 
 REM Create batch file wrapper
-echo Creating 'testgen.bat' wrapper...
+echo Creating 'qauto.bat' wrapper...
 set SCRIPT_DIR=%~dp0
-set WRAPPER=%SCRIPT_DIR%testgen.bat
+set WRAPPER=%SCRIPT_DIR%qauto.bat
 
 echo @echo off > "%WRAPPER%"
-echo python "%SCRIPT_DIR%testgen.py" %%* >> "%WRAPPER%"
+echo python "%SCRIPT_DIR%qauto.py" %%* >> "%WRAPPER%"
 
 echo [OK] Created %WRAPPER%
 echo.
@@ -48,7 +48,7 @@ echo ==================================
 echo Installation Complete!
 echo ==================================
 echo.
-echo To run 'testgen' from anywhere, add this folder to your PATH environment variable:
+echo To run 'qauto' from anywhere, add this folder to your PATH environment variable:
 echo.
 echo %SCRIPT_DIR%
 echo.
@@ -62,6 +62,6 @@ echo.
 echo Quick Start:
 echo 1. Open a new terminal
 echo 2. Navigate to your screenshots folder
-echo 3. Run: testgen prepare
+echo 3. Run: qauto prepare
 echo.
 pause

@@ -1,6 +1,6 @@
-template:
-  primary: /home/jhoncb/My-Playground/actual excel template/Test_Case_Template.xlsx
-  fallback: ./Test_Case_Template.xlsx
+# template:
+#   primary: "./actual excel template/Test_Case_Template.xlsx"
+#   fallback: "./actual excel template/Test_Case_Template.xlsx"
 directories:
   batches: ./batches
   output: ./output

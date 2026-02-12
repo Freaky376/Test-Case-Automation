@@ -1,5 +1,5 @@
 """
-Configuration management for TestGen
+Configuration management for QAUTO
 """
 import os
 import yaml
@@ -12,7 +12,7 @@ class Config:
     
     DEFAULT_CONFIG = {
         'template': {
-            'primary': '/home/jhoncb/My-Playground/actual excel template/Test_Case_Template.xlsx',
+            'primary': str(Path(__file__).parent.parent / 'actual excel template' / 'Test_Case_Template.xlsx'),
             'fallback': './Test_Case_Template.xlsx'
         },
         'directories': {
@@ -36,12 +36,12 @@ class Config:
     def _get_default_config_path(self) -> str:
         """Get the default config file path"""
         # Look for config in current directory first, then in script directory
-        current_dir_config = Path.cwd() / 'testgen.config.yaml'
+        current_dir_config = Path.cwd() / 'qauto.config.yaml'
         if current_dir_config.exists():
             return str(current_dir_config)
         
         script_dir = Path(__file__).parent.parent
-        return str(script_dir / 'testgen.config.yaml')
+        return str(script_dir / 'qauto.config.yaml')
     
     def _load_config(self) -> Dict[str, Any]:
         """Load configuration from file or create default"""

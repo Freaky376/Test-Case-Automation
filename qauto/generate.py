@@ -150,14 +150,95 @@ def generate_excel(test_cases: List[Dict], output_dir: str, template_path: str) 
             col_letter = get_column_letter(col_idx)
             ws.column_dimensions[col_letter].width = width
         
+        # Sort test cases by module to ensure grouping
+        # Default module to "General" if missing
+        for case in test_cases:
+            if "module" not in case or not case["module"]:
+                case["module"] = "General"
+                
+        # Sort primarily by module, then by ID or original order
+        test_cases.sort(key=lambda x: (x.get("module", "General"), x.get("id", "")))
+        
+        current_module = None
+        
         for i, case in enumerate(test_cases):
-            row_num = start_row + i
+            # Check if module changed
+            module = case.get("module", "General")
+            
+            if module != current_module:
+                # Insert Separator Row
+                current_module = module
+                row_num = ws.max_row + 1
+                
+                # Merge cells for the header row (Columns 1-10)
+                ws.merge_cells(start_row=row_num, start_column=1, end_row=row_num, end_column=10)
+                
+                # Set value in the first cell of the merged range
+                cell = ws.cell(row=row_num, column=1)
+                cell.value = f"[{module}]"
+                cell.font = openpyxl.styles.Font(bold=True, size=12, color="0000FF") # Blue, Bold, Larger
+                cell.alignment = Alignment(horizontal='left', vertical='center')
+                
+                # Add background color to the merged range
+                fill = openpyxl.styles.PatternFill(start_color="E0E0E0", end_color="E0E0E0", fill_type="solid")
+                for col in range(1, 11):
+                     ws.cell(row=row_num, column=col).fill = fill
+                
+                ws.row_dimensions[row_num].height = 30
+            
+            # Now write the test case
+            row_num = ws.max_row + 1
             
             def get_val(key):
                 val = case.get(key, "")
                 if val is None:
                     return ""
                 return str(val)
+            
+            # Add test type prefix to title
+            title = get_val("title")
+            raw_type = get_val("type").upper()
+            
+            # Helper to determine type
+            def determine_type(type_str, title_str):
+                # 1. Use explicit type if available
+                if type_str:
+                    mapping = {
+                        "UI": "UI",
+                        "UI/UX": "UI",
+                        "UIUX": "UI",
+                        "POSITIVE": "FUNCTION",
+                        "NEGATIVE": "FUNCTION",
+                        "EDGE": "FUNCTION",
+                        "FUNCTIONAL": "FUNCTION",
+                        "FUNCTION": "FUNCTION"
+                    }
+                    return mapping.get(type_str, type_str)
+                
+                # 2. Infer from title keywords if no type
+                title_lower = title_str.lower()
+                ui_keywords = ["ui", "design", "layout", "color", "font", "align", "spelling", "text", "appearance", "style", "display", "appear", "icon", "button", "logo", "image"]
+                if any(k in title_lower for k in ui_keywords):
+                    return "UI"
+                
+                # Default to FUNCTION for logic/behavior tests
+                return "FUNCTION"
+
+            display_type = determine_type(raw_type, title)
+            
+            # Format prefixes: [Type] Title (Module removed from prefix as it's now a header)
+            prefix = f"[{display_type}]"
+            
+            # Avoid double prefixing
+            clean_title = title.strip()
+            # Remove module prefix if it was there from previous run
+            if clean_title.startswith(f"[{module}]"):
+                 clean_title = clean_title[len(f"[{module}]"):].strip()
+                 
+            if clean_title.startswith(prefix):
+                 formatted_title = clean_title
+            else:
+                formatted_title = f"{prefix} {clean_title}"
             
             # Map data to columns (1-based index)
             columns_data = [
@@ -177,7 +258,11 @@ def generate_excel(test_cases: List[Dict], output_dir: str, template_path: str) 
             
             for col_idx, key in columns_data:
                 cell = ws.cell(row=row_num, column=col_idx)
-                value = get_val(key)
+                # Use formatted title for title column, otherwise use regular value
+                if key == "title":
+                    value = formatted_title
+                else:
+                    value = get_val(key)
                 cell.value = value
                 
                 # Apply text wrapping for long fields

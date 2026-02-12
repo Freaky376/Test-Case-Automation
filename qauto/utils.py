@@ -1,5 +1,5 @@
 """
-Utility functions for TestGen
+Utility functions for QAUTO
 """
 import os
 from pathlib import Path

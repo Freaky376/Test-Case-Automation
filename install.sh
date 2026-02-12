@@ -1,11 +1,11 @@
 #!/bin/bash
-# TestGen Installation Script for Linux/Mac
-# This script sets up the TestGen CLI tool
+# QAUTO Installation Script for Linux/Mac
+# This script sets up the QAUTO CLI tool
 
 set -e
 
 echo "=================================="
-echo "TestGen CLI Tool - Linux/Mac Setup"
+echo "QAUTO CLI Tool - Linux/Mac Setup"
 echo "=================================="
 echo ""
 
@@ -56,14 +56,14 @@ else
 fi
 echo ""
 
-# Make testgen.py executable
-echo "Making testgen.py executable..."
-chmod +x "$SCRIPT_DIR/testgen.py"
-echo -e "${GREEN}✓${NC} testgen.py is now executable"
+# Make qauto.py executable
+echo "Making qauto.py executable..."
+chmod +x "$SCRIPT_DIR/qauto.py"
+echo -e "${GREEN}✓${NC} qauto.py is now executable"
 echo ""
 
 # Option to create symlink for global access
-echo "Would you like to make 'testgen' available globally? (y/n)"
+echo "Would you like to make 'qauto' available globally? (y/n)"
 read -r response
 
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
@@ -71,7 +71,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     LOCAL_BIN="$HOME/.local/bin"
     mkdir -p "$LOCAL_BIN"
     
-    SYMLINK="$LOCAL_BIN/testgen"
+    SYMLINK="$LOCAL_BIN/qauto"
     
     if [ -L "$SYMLINK" ]; then
         echo -e "${YELLOW}⚠${NC}  Symlink already exists at $SYMLINK"
@@ -79,8 +79,8 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         rm "$SYMLINK"
     fi
     
-    ln -s "$SCRIPT_DIR/testgen.py" "$SYMLINK"
-    echo -e "${GREEN}✓${NC} Created symlink: $SYMLINK -> $SCRIPT_DIR/testgen.py"
+    ln -s "$SCRIPT_DIR/qauto.py" "$SYMLINK"
+    echo -e "${GREEN}✓${NC} Created symlink: $SYMLINK -> $SCRIPT_DIR/qauto.py"
     
     # Check if ~/.local/bin is in PATH
     if [[ ":$PATH:" != *":$LOCAL_BIN:"* ]]; then
@@ -96,10 +96,10 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     fi
     
     echo ""
-    echo -e "${GREEN}✓${NC} You can now use 'testgen' command from anywhere!"
+    echo -e "${GREEN}✓${NC} You can now use 'qauto' command from anywhere!"
 else
     echo "Skipping global installation."
-    echo "You can run the tool using: python3 $SCRIPT_DIR/testgen.py"
+    echo "You can run the tool using: python3 $SCRIPT_DIR/qauto.py"
 fi
 
 echo ""
@@ -109,9 +109,9 @@ echo "=================================="
 echo ""
 echo "Quick Start:"
 echo "  1. Navigate to a directory with screenshots"
-echo "  2. Run: testgen prepare"
+echo "  2. Run: qauto prepare"
 echo "  3. Process batches with AI and save JSON"
-echo "  4. Run: testgen generate"
+echo "  4. Run: qauto generate"
 echo ""
-echo "For help: testgen --help"
+echo "For help: qauto --help"
 echo ""
