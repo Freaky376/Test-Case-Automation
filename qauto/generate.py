@@ -151,14 +151,25 @@ def generate_excel(test_cases: List[Dict], output_dir: str, template_path: str) 
             col_letter = get_column_letter(col_idx)
             ws.column_dimensions[col_letter].width = width
         
-        # Sort test cases by module to ensure grouping
-        # Default module to "General" if missing
+        # Group by module while preserving original JSON order within each group.
+        # Modules appear in the order they are first encountered (batch 1 first).
         for case in test_cases:
             if "module" not in case or not case["module"]:
                 case["module"] = "General"
-                
-        # Sort primarily by module, then by ID or original order
-        test_cases.sort(key=lambda x: (x.get("module", "General"), x.get("id", "")))
+        
+        seen_modules = {}  # module -> list of cases
+        module_order = []  # preserves first-seen order of modules
+        for case in test_cases:
+            mod = case.get("module", "General")
+            if mod not in seen_modules:
+                seen_modules[mod] = []
+                module_order.append(mod)
+            seen_modules[mod].append(case)
+        
+        ordered_cases = []
+        for mod in module_order:
+            ordered_cases.extend(seen_modules[mod])
+        test_cases = ordered_cases
         
         current_module = None
         
