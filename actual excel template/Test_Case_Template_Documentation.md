@@ -8,7 +8,7 @@
 
 ## 📋 Template Structure
 
-This Excel template contains **10 columns** for comprehensive test case documentation:
+This Excel template contains **11 columns** for comprehensive test case documentation:
 
 | Column | Field Name | Description |
 |--------|------------|-------------|
@@ -19,9 +19,10 @@ This Excel template contains **10 columns** for comprehensive test case document
 | E | Steps to Reproduce | Detailed steps to execute the test |
 | F | Expected Results | What should happen when test is executed |
 | G | Actual Result | What actually happened during testing |
-| H | Status (Pass/Fail) | Test outcome (dropdown: Pass, Fail) |
-| I | QA Tester | Person who executed the test |
-| J | QA Notes | Additional notes or observations |
+| H | Acceptance Criteria | Designer-provided acceptance criteria for the test case |
+| I | Status (Pass/Fail) | Test outcome (dropdown: Pass, Fail) |
+| J | QA Tester | Person who executed the test |
+| K | QA Notes | Additional notes or observations |
 
 ---
 
@@ -38,9 +39,9 @@ The template includes **2 automated dropdown menus**:
   - Medium
   - Low
 
-### 2. Status Column (H)
+### 2. Status Column (I)
 - **Type**: List dropdown
-- **Range**: Entire column H (rows 1-1,048,576)
+- **Range**: Entire column I (rows 1-1,048,576)
 - **Options**:
   - Pass
   - Fail
@@ -60,7 +61,7 @@ The template uses **automatic color coding** based on dropdown selections:
 | Medium | 🟡 Yellow | #F4CE2C |
 | Low | 🟢 Green | #77C38B |
 
-### Status Column (H) - Color Scheme
+### Status Column (I) - Color Scheme
 
 | Status | Color | Hex Code |
 |--------|-------|----------|
@@ -115,7 +116,7 @@ Additional rows (3-5) show example priority levels: High, Medium, Low
 
 - **File Format**: XLSX (Excel 2007+)
 - **Sheet Name**: Page1
-- **Dimensions**: 5 rows × 10 columns (with sample data)
+- **Dimensions**: 5 rows × 11 columns (with sample data)
 - **Font**: Aptos Narrow, 11pt
 - **Data Validation**: Applied to entire columns for scalability
 - **Conditional Formatting Rules**: 6 format rules total (4 for Priority, 2 for Status)

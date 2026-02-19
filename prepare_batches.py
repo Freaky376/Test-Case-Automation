@@ -31,34 +31,7 @@ def create_batches():
     # Default prompt template for test case generation
     prompt_content = """You are a Senior QA Engineer. Analyze the attached UI screenshots for the 'General' module.
 
-**Screenshot Naming Convention:**
-- Main screens: `1.png`, `2.png`, `3.png`, etc.
-- Scrollable pages (same screen, scrolled down): `1a.png`, `1b.png`, `1c.png`, etc.
-- Sub-components (modals, dropdowns, dialogs): `1.1.png`, `1.2.png`, `2.1.png`, etc.
-- Nested components: `1.1.1.png`, `1.1.2.png`, etc.
-
-**Key Distinction:**
-- **Letters (a, b, c)** = Same screen, scrolled vertically (continuation of content)
-- **Decimals (.1, .2)** = Different UI component (modal, dropdown, dialog)
-
-Example:
-- `1.png` = Dashboard (top section)
-- `1a.png` = Dashboard (scrolled middle section)
-- `1b.png` = Dashboard (scrolled bottom section)
-- `1.1.png` = Modal opened from dashboard
-- `1.2.png` = Dropdown/component on dashboard
-- `2.png` = Settings page
-- `2.1.png` = Settings modal
-
-**Instructions:**
-Use the screenshot naming to understand:
-1. UI hierarchy and navigation flow
-2. Which screenshots show the same screen at different scroll positions (treat as ONE screen)
-3. Which screenshots show separate components (modals, dropdowns)
-
-Group related test cases by the parent screen number.
-
-4. Do NOT include '[Screenshot X]' or similar references in the title field.
+Acceptance Criteria Reference: Each test case includes an `acceptance_criteria` field. Use this field to define the specific acceptance criteria that must be met for the test case to pass. This should reference the designer-provided acceptance criteria when available. If no specific acceptance criteria is provided, leave it empty or derive a clear pass/fail criteria from the expected result.
 
 Context: 
 
@@ -72,9 +45,10 @@ Output JSON format ONLY (no markdown, valid JSON):
             "priority": "Critical|High|Medium|Low",
             "title": "Clear title (do NOT include screenshot reference e.g. [Screenshot 1])",
             "precondition": "Setup required",
-            "steps": "1. Step one\\n2. Step two",
+            "steps": "1. Step one\\\\n2. Step two",
             "expected_result": "Expected outcome",
             "actual_result": "",
+            "acceptance_criteria": "",
             "status": "Not Run",
             "qa_tester": "",
             "qa_notes": ""

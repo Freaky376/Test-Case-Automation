@@ -140,9 +140,10 @@ def generate_excel(test_cases: List[Dict], output_dir: str, template_path: str) 
             5: 50,  # Steps
             6: 40,  # Expected
             7: 30,  # Actual
-            8: 10,  # Status
-            9: 15,  # Tester
-            10: 20  # Notes
+            8: 40,  # Acceptance Criteria
+            9: 10,  # Status
+            10: 15, # Tester
+            11: 20  # Notes
         }
         
         # Apply column widths
@@ -171,7 +172,7 @@ def generate_excel(test_cases: List[Dict], output_dir: str, template_path: str) 
                 row_num = ws.max_row + 1
                 
                 # Merge cells for the header row (Columns 1-10)
-                ws.merge_cells(start_row=row_num, start_column=1, end_row=row_num, end_column=10)
+                ws.merge_cells(start_row=row_num, start_column=1, end_row=row_num, end_column=11)
                 
                 # Set value in the first cell of the merged range
                 cell = ws.cell(row=row_num, column=1)
@@ -181,7 +182,7 @@ def generate_excel(test_cases: List[Dict], output_dir: str, template_path: str) 
                 
                 # Add background color to the merged range
                 fill = openpyxl.styles.PatternFill(start_color="E0E0E0", end_color="E0E0E0", fill_type="solid")
-                for col in range(1, 11):
+                for col in range(1, 12):
                      ws.cell(row=row_num, column=col).fill = fill
                 
                 ws.row_dimensions[row_num].height = 30
@@ -249,9 +250,10 @@ def generate_excel(test_cases: List[Dict], output_dir: str, template_path: str) 
                 (5, "steps"),
                 (6, "expected_result"),
                 (7, "actual_result"),
-                (8, "status"),
-                (9, "qa_tester"),
-                (10, "qa_notes")
+                (8, "acceptance_criteria"),
+                (9, "status"),
+                (10, "qa_tester"),
+                (11, "qa_notes")
             ]
             
             max_lines_in_row = 1
@@ -266,7 +268,7 @@ def generate_excel(test_cases: List[Dict], output_dir: str, template_path: str) 
                 cell.value = value
                 
                 # Apply text wrapping for long fields
-                if col_idx in [3, 4, 5, 6, 7, 10]:
+                if col_idx in [3, 4, 5, 6, 7, 8, 11]:
                     cell.alignment = Alignment(wrap_text=True, vertical='top')
                     
                     # Estimate row height
